@@ -4,6 +4,8 @@ interface CameraProps {
   facingMode: 'environment' | 'user';
   width: number;
   height: number;
+  fullscreen: true;
+  
 }
 
 function camera() {
