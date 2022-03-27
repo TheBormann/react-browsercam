@@ -6,8 +6,8 @@ import { useWindowSize } from './use_window_size';
 const CAPTURE_OPTIONS = {
   audio: false,
   video: {
-    width: { ideal: 1920 },
-    height: { ideal: 1920 },
+    width: { ideal: 4096 },
+    height: { ideal: 4096 },
     facingMode: 'environment'
   }
 };
@@ -21,7 +21,7 @@ export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
   const [image, setImage] = useState<Blob | null>(null);
 
   const video = document.createElement('video');
-  const videoRef = React.useRef(video);
+  const videoRef = React.useRef<HTMLVideoElement>(video);
   const wSize = useWindowSize();
   const mediaStream = useUserMedia(captureOptions);
 
@@ -97,9 +97,10 @@ export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
     return { x: 0, y: 0 };
   }
 
-  return [
+  return {
     image,
+    isAccessingCamera: mediaStream === null ? false : true,
     videoRef,
     capture
-  ];
+  };
 };
