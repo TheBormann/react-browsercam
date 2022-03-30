@@ -8,11 +8,12 @@ import React from 'react';
  */
  type Props = {
   flash: boolean,
+  onAnimationEnd: () => void,
 }
 
-const Flash = ({flash}: Props) => {
+const Flash = ({flash, onAnimationEnd}: Props) => {
   return (
-    <div className={`absolute inset-0 bg-white opacity-0 ${(flash === true && 'animate-flash')}`}
+    <div onAnimationEnd={onAnimationEnd} className={`absolute inset-0 bg-white opacity-0 ${(flash === true && 'animate-flash')}`}
     />
   );
 };
