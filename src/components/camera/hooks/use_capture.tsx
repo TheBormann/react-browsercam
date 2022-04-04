@@ -1,9 +1,9 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useUserMedia } from './use_user_media';
 import { useWindowSize } from './use_window_size';
 
-const CAPTURE_OPTIONS = {
+const VIDEO_CONSTRAINTS = {
   audio: false,
   video: {
     width: { ideal: 4096 },
@@ -17,13 +17,17 @@ const CAPTURE_OPTIONS = {
  *
  * @author [Lukas Bormann]
  */
-export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
-  const [image, setImage] = useState<Blob | null>(null);
+ type Props = {
+  MediaStreamConstraints?: MediaStreamConstraints | undefined;
+  imageFormat?: 'image/webp' | 'image/png' | 'image/jpeg';
+  imageCompression?: number;
+};
 
+export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFormat = 'image/jpeg', imageCompression = 0.91}: Props) => {
   const video = document.createElement('video');
   const videoRef = React.useRef<HTMLVideoElement>(video);
   const wSize = useWindowSize();
-  const mediaStream = useUserMedia(captureOptions);
+  const {mediaStream, notSupported, permissionDenied} = useUserMedia(MediaStreamConstraints);
 
   // Check for availability of the mediastream
   useEffect(() => {
@@ -32,7 +36,7 @@ export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
     }
   }, [mediaStream]);
 
-  const capture = () => {
+  const capture = async (format: 'blob' | 'canvas' | 'base64' = 'blob') => {
     if (mediaStream === null) return
 
     const dimensions = calculateNewDimensions(
@@ -66,8 +70,12 @@ export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
       dimensions.height
     );
 
+    if(format === 'blob'){
     // canvas.toBlob is used instead of canvas.toDataURL(), because it reduces the compute time by at least 3x
-    canvas.toBlob((blob) => setImage(blob), 'image/jpeg', 1);
+      return await new Promise(resolve => canvas.toBlob(resolve, imageFormat, imageCompression)); 
+    } else {
+      return canvas.toDataURL(imageFormat, imageCompression);
+    }
   };
 
   // Calculate new size of the image
@@ -98,7 +106,6 @@ export const useCapture = (captureOptions = CAPTURE_OPTIONS) => {
   }
 
   return {
-    image,
     isAccessingCamera: mediaStream === null ? false : true,
     videoRef,
     capture
