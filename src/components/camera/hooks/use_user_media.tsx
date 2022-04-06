@@ -9,13 +9,15 @@ export function useUserMedia(requestedMedia: MediaStreamConstraints | undefined)
   const [isPermissionDenied, setIsPermissionDenied] = useState<boolean>(false);
 
   useEffect(() => {
+    let isMounted = true;
     async function enableVideoStream() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia(requestedMedia);
-        setMediaStream(stream);
+        if (isMounted) setMediaStream(stream);
       } catch (err) {
         handleError(err as Error, setIsNotSupported, setIsPermissionDenied);
       }
+      return () => { isMounted = false };
     }
 
     async function disableVideoStream() {
