@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { Camera } from '../components';
 import CameraInterface from '../components/camera/components/camera_interface';
+import { useCapture } from '../components/camera/hooks/use_capture';
 
 export default {
   title: 'Example/Camera',
@@ -11,18 +12,12 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => {
-  const camera = useRef(null);
+  const { image, isAccessingCamera, videoRef, capture, setBeforeCapture } = useCapture({});
 
-  const [image, setImage] = useState<Blob | null>(null);
-
-
+  // TODO fix, that camera isn't showing if a percentage is given
   return <div className="w-60 h-60">
-    <Camera ref={camera} {...args}>
-      <CameraInterface image={image} handleCapture={() => {
-            if(camera.current === null) return;
-            const photo = camera.current.takePhoto('base64');
-            setImage(photo);
-        }} />
+    <Camera videoRef={videoRef} isAccessingCamera={isAccessingCamera} flash={setBeforeCapture} {...args}>
+      <CameraInterface image={image} handleCapture={capture} openImage={() => console.log("open Details")} />
     </Camera>
   </div>
 };
