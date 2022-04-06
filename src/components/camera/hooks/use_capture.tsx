@@ -145,8 +145,6 @@ export const useCapture = ({
     capture,
     isNotSupported,
     isPermissionDenied,
-    beforeCapture,
-    afterCapture,
     setBeforeCapture,
     setAfterCapture
   };
