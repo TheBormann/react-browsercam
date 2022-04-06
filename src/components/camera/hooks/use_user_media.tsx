@@ -5,8 +5,8 @@ import { useState, useEffect, SetStateAction } from 'react';
  **/
 export function useUserMedia(requestedMedia: MediaStreamConstraints | undefined) {
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
-  const [notSupported, setNotSupported] = useState<boolean>(false);
-  const [permissionDenied, setPermissionDenied] = useState<boolean>(false);
+  const [isNotSupported, setIsNotSupported] = useState<boolean>(false);
+  const [isPermissionDenied, setIsPermissionDenied] = useState<boolean>(false);
 
   useEffect(() => {
     async function enableVideoStream() {
@@ -14,7 +14,7 @@ export function useUserMedia(requestedMedia: MediaStreamConstraints | undefined)
         const stream = await navigator.mediaDevices.getUserMedia(requestedMedia);
         setMediaStream(stream);
       } catch (err) {
-        handleError(err as Error, setNotSupported, setPermissionDenied);
+        handleError(err as Error, setIsNotSupported, setIsPermissionDenied);
       }
     }
 
@@ -36,7 +36,7 @@ export function useUserMedia(requestedMedia: MediaStreamConstraints | undefined)
     }
   }, [mediaStream, requestedMedia]);
 
-  return { mediaStream, notSupported, permissionDenied };
+  return { mediaStream, isNotSupported, isPermissionDenied };
 }
 
 const handleError = (
