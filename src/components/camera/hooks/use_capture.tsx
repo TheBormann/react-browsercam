@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useUserMedia } from './use_user_media';
 import { useWindowSize } from './use_window_size';
@@ -17,17 +17,35 @@ const VIDEO_CONSTRAINTS = {
  *
  * @author [Lukas Bormann]
  */
- type Props = {
+type Props = {
   MediaStreamConstraints?: MediaStreamConstraints | undefined;
   imageFormat?: 'image/webp' | 'image/png' | 'image/jpeg';
   imageCompression?: number;
 };
 
-export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFormat = 'image/jpeg', imageCompression = 0.91}: Props) => {
+export const useCapture = ({
+  MediaStreamConstraints = VIDEO_CONSTRAINTS,
+  imageFormat = 'image/jpeg',
+  imageCompression = 0.91
+}: Props) => {
+  const [image, setImage] = useState<Blob | HTMLCanvasElement | string | null>(null);
   const video = document.createElement('video');
   const videoRef = React.useRef<HTMLVideoElement>(video);
   const wSize = useWindowSize();
-  const {mediaStream, notSupported, permissionDenied} = useUserMedia(MediaStreamConstraints);
+  const { mediaStream, isNotSupported, isPermissionDenied } = useUserMedia(MediaStreamConstraints);
+
+  const [beforeCapture, setBeforeCapture] = useState<() => void>(() => () => null);
+  const [afterCapture, setAfterCapture] = useState<() => void>(() => () => null);
+
+  // stop any active streams in the window
+  useEffect(() => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Check for availability of the mediastream
   useEffect(() => {
@@ -36,8 +54,10 @@ export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFor
     }
   }, [mediaStream]);
 
-  const capture = async (format: 'blob' | 'canvas' | 'base64' = 'blob') => {
-    if (mediaStream === null) return
+  const capture = (format: 'blob' | 'canvas' | 'base64' = 'blob') => {
+    if (mediaStream === null) return;
+
+    beforeCapture();
 
     const dimensions = calculateNewDimensions(
       mediaStream.getVideoTracks()[0].getSettings().width,
@@ -55,7 +75,7 @@ export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFor
 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    if (context === null) return
+    if (context === null) return;
     context.canvas.width = dimensions.width;
     context.canvas.height = dimensions.height;
     context.drawImage(
@@ -70,16 +90,24 @@ export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFor
       dimensions.height
     );
 
-    if(format === 'blob'){
-    // canvas.toBlob is used instead of canvas.toDataURL(), because it reduces the compute time by at least 3x
-      return await new Promise(resolve => canvas.toBlob(resolve, imageFormat, imageCompression)); 
+    if (format === 'blob') {
+      // canvas.toBlob is used instead of canvas.toDataURL(), because it reduces the compute time
+      canvas.toBlob((blob) => setImage(blob), 'image/jpeg', 1);
+    } else if (format === 'canvas') {
+      setImage(canvas);
     } else {
-      return canvas.toDataURL(imageFormat, imageCompression);
+      setImage(canvas.toDataURL(imageFormat, imageCompression));
     }
+    afterCapture();
   };
 
   // Calculate new size of the image
-  function calculateNewDimensions(imgWidth: number | undefined, imgHeight: number | undefined, screenWidth: number | undefined, screenHeight: number | undefined) {
+  function calculateNewDimensions(
+    imgWidth: number | undefined,
+    imgHeight: number | undefined,
+    screenWidth: number | undefined,
+    screenHeight: number | undefined
+  ) {
     if (imgWidth && imgHeight && screenWidth && screenHeight) {
       const aspectRatioW = screenWidth / screenHeight;
       const aspectRatioH = screenHeight / screenWidth;
@@ -95,7 +123,12 @@ export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFor
   }
 
   // Calculate offsets to center container
-  function calculateOffsets(dWidth: number | undefined, dHeight: number | undefined, wantedWidth: number | undefined, wantedHeight: number | undefined) {
+  function calculateOffsets(
+    dWidth: number | undefined,
+    dHeight: number | undefined,
+    wantedWidth: number | undefined,
+    wantedHeight: number | undefined
+  ) {
     if (dWidth && dHeight && wantedWidth && wantedHeight) {
       const x = dWidth > wantedWidth ? Math.round((dWidth - wantedWidth) / 2) : 0;
       const y = dHeight > wantedHeight ? Math.round((dHeight - wantedHeight) / 2) : 0;
@@ -106,8 +139,15 @@ export const useCapture = ({MediaStreamConstraints = VIDEO_CONSTRAINTS, imageFor
   }
 
   return {
+    image,
     isAccessingCamera: mediaStream === null ? false : true,
     videoRef,
-    capture
+    capture,
+    isNotSupported,
+    isPermissionDenied,
+    beforeCapture,
+    afterCapture,
+    setBeforeCapture,
+    setAfterCapture
   };
 };
