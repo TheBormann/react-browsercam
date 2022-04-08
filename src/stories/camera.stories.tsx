@@ -14,8 +14,7 @@ export default {
 const Template: Story = (args) => {
   const { image, isAccessingCamera, videoRef, capture, setBeforeCapture } = useCapture({});
 
-  // TODO fix, that camera isn't showing if a percentage is given
-  return <div className="w-60 h-60">
+  return <div className="w-96 h-60">
     <Camera videoRef={videoRef} isAccessingCamera={isAccessingCamera} flash={setBeforeCapture} {...args}>
       <CameraInterface image={image} handleCapture={capture} openImage={() => console.log("open Details")} />
     </Camera>
