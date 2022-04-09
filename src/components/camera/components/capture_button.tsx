@@ -13,7 +13,7 @@ const CaptureButton = ({ onClick }: Props) => {
   return (
     <button
       onClick={onClick}
-      className={`w-14 h-14 p-0 m-1 bg-transparent rounded-full focus:outline-none`}>
+      className={`w-14 h-14 p-0 bg-transparent rounded-full focus:outline-none`}>
       <svg
         className={'h-fit w-fit'}
         viewBox="0 0 316 316"
