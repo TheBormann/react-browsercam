@@ -6,7 +6,6 @@ import React from 'react';
 type Props = {
   onClick: () => void;
 };
-//TODO change button to photobutton
 const FullScreenButton = ({ onClick }: Props) => {
   return (
     <button
