@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useUserMedia } from './use_user_media';
-import { useWindowSize } from './use_window_size';
 
 const VIDEO_CONSTRAINTS = {
   audio: false,
@@ -31,7 +30,6 @@ export const useCapture = ({
   const [image, setImage] = useState<Blob | HTMLCanvasElement | string | null>(null);
   const video = document.createElement('video');
   const videoRef = React.useRef<HTMLVideoElement>(video);
-  const wSize = useWindowSize();
   const { mediaStream, isNotSupported, isPermissionDenied } = useUserMedia(MediaStreamConstraints);
 
   const [beforeCapture, setBeforeCapture] = useState<() => void>(() => () => null);
@@ -62,8 +60,8 @@ export const useCapture = ({
     const dimensions = calculateNewDimensions(
       mediaStream.getVideoTracks()[0].getSettings().width,
       mediaStream.getVideoTracks()[0].getSettings().height,
-      wSize.width,
-      wSize.height
+      videoRef.current.clientWidth,
+      videoRef.current.clientHeight
     );
 
     const offsets = calculateOffsets(
