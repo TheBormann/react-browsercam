@@ -9,6 +9,10 @@ logs
 **/*.backup.*
 **/*.back.*
 
+## Example
+/example/node_modules
+/example/build
+
 dist
 node_modules
 bower_components
