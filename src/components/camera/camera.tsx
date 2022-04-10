@@ -14,10 +14,11 @@ type Props = {
   objectFit?: 'cover' | 'fill' | 'contain' | 'none' | 'scale-down';
   fullscreen?: boolean;
   flash: Dispatch<SetStateAction<() => void>>;
+  inPicture?: boolean;
   children: React.ReactNode | React.ReactNode[];
 };
 
-const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen = true, children, flash }: Props) => {
+const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen = true, children, flash, inPicture = true }: Props) => {
   const [isFlashing, setIsFlashing] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const handleFullscreen = useFullScreenHandle();
@@ -75,14 +76,13 @@ const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen =
         autoPlay
         playsInline
         muted
-        className={`absolute z-0 w-full h-full object-${objectFit} object-center`}
+        className={`relative z-0 ${inPicture === false ? 'h-full' : 'h-full'} w-full object-${objectFit} object-center`}
       />
 
       <Flash flash={isFlashing} onAnimationEnd={() => setIsFlashing(false)} />
 
       {/*navigation*/}
-      <div className={`absolute z-10 w-full h-full`}>
-        {fullscreen && (
+      {fullscreen && (
           <div className={`absolute top-1 left-1`}>
             <FullScreenButton
               onClick={() =>
@@ -91,8 +91,10 @@ const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen =
             />
           </div>
         )}
-        {children}
+      <div className={`absolute z-10 w-full h-full`}>
+        {!inPicture && children}
       </div>
+      {inPicture && children}
     </FullScreen>
   );
 };

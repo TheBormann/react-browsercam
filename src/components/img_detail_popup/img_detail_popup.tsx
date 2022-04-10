@@ -21,8 +21,8 @@ const ImgDetailPopup = ({ image, visible, handleClose }: Props) => {
   if (imageBase64 === null || !visible) return <div />;
 
   return (
-    <div className={`absolute inset-0  h-screen w-screen z-20`}>
-      <img className={`absolute inset-0 w-full h-full object-cover`} src={imageBase64} alt="" />
+    <div className={`absolute inset-0  h-screen w-screen z-20 bg-white`}>
+      <img className={`absolute inset-0 w-full h-full object-contain`} src={imageBase64} alt="" />
 
       <button
         onClick={handleClose}
