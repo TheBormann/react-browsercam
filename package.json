@@ -1,9 +1,10 @@
 {
   "name": "react-browsercam",
-  "version": "0.0.0",
+  "version": "1.0.4",
   "description": "Simple camera component that works in every browser",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "source": "src/index.tsx",
   "files": [
     "dist"
@@ -16,6 +17,9 @@
     "url": "https://github.com/TheBormann/react-browsercam/issues"
   },
   "homepage": "https://github.com/TheBormann/react-browsercam#readme",
+  "keywords": [
+    "camera", "webcam", "cam", "react", "ios", "android", "mobile"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup -c && tsc",
@@ -27,11 +31,10 @@
     "lint:format": "prettier --check .",
     "lint": "eslint src/**"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Lukas Bormann <mail@lukas-bormann.com>",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.3",
-    "@rollup/plugin-typescript": "^8.3.1",
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-interactions": "^6.4.19",
@@ -54,6 +57,7 @@
     "rollup": "^2.70.1",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.31.2",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.6.2"
   },

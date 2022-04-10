@@ -1,33 +1,18 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Camera, CameraInterface, ImgDetailPopup, useCapture } from 'react-browsercam';
 
 function App() {
-  //const { image, isAccessingCamera, videoRef, capture, setBeforeCapture } = useCapture({});
+  const { image, isAccessingCamera, videoRef, capture, setBeforeCapture } = useCapture({});
   const [displayDetails, setDisplayDetails] = useState(false);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-      <div className="w-60 h-60">
-        {/*
+      <div style={{width: "100vw", height: "100vh"}}>
         <Camera
           videoRef={videoRef}
           isAccessingCamera={isAccessingCamera}
-          flash={setBeforeCapture}
-          {...args}>
+          flash={setBeforeCapture}>
           <CameraInterface
             image={image}
             handleCapture={capture}
@@ -36,9 +21,7 @@ function App() {
         </Camera>
       </div>
       <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
-  */}
       </div>
-    </div>
   );
 }
 

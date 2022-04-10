@@ -1,6 +1,6 @@
 # react-browsercam
 
-A fully responsive camera component for React.
+A fully responsive and customizable camera component for React.
 
 Browser compatibility:
 
@@ -23,7 +23,11 @@ npm install --save react-browsercam
 
 ## Demo
 
-TODO: Add link
+TODO add live demo
+
+## Example
+
+https://github.com/TheBormann/react-browsercam/example
 
 ## Usage
 
@@ -86,6 +90,7 @@ const WebcamComponent = () => {
 | objectFit? | `'cover' \| 'fill' \| 'contain' \| 'none' \| 'scale-down'` | `'cover` | Changes the cropping of the image |
 | fullscreen? | `boolean?` | `true` | Allows you to disable the fullscreen functionality |
 | flash | `Dispatch<SetStateAction<() => void>>` | required | You can pass it the `setBeforeCapture` value from useCapture to add a flash when capturing an image. Otherwise pass `() => () => void`
+| inPicture? IN PROGRESS! | `boolean?` | `true` | Allows you to overlay the camera buttons on top of the camera image |
 | children | Your camera interface | required | You can use the provided `CameraInterface` Component as a default |
 
 ### CameraInterface Props
