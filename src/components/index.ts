@@ -1,3 +1,5 @@
 import './tailwind.css'
 
-export { default as Camera } from './camera';
+export { Camera } from './camera';
+export { CameraInterface } from './camera_interface';
+export { ImgDetailPopup } from './img_detail_popup';

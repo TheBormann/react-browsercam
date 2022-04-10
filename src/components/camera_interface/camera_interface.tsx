@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import CaptureButton from './capture_button';
+import CaptureButton from './components/capture_button';
 
 /**
  * @author [Lukas Bormann]

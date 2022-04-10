@@ -2,10 +2,8 @@
 
 import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import { Camera } from '../components';
-import CameraInterface from '../components/camera/components/camera_interface';
-import { useCapture } from '../components/camera/hooks/use_capture';
-import ImgDetailPopup from '../components/camera/components/img_detail_popup';
+import { Camera, CameraInterface, ImgDetailPopup } from '../components';
+import { useCapture } from '../hooks';
 
 export default {
   title: 'Example/Camera',

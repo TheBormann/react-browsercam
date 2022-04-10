@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import ImgDetailPopup from '../components/camera/components/img_detail_popup';
+import { ImgDetailPopup } from '../components/img_detail_popup';
 
 export default {
   title: 'Example/ImgDetailPopup',
