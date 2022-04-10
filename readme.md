@@ -27,11 +27,33 @@ TODO: Add link
 
 ## Usage
 
-```TS
-import React from "react";
-import Camera from "react-browsercam";
+The following example shows an implementation of a full featured camera.
 
-const WebcamComponent = () => <Camera />;
+```TS
+import { Camera, CameraInterface, ImgDetailPopup, useCapture } from 'react-browsercam';
+
+const WebcamComponent = () => {
+  const { image, isAccessingCamera, videoRef, capture, setBeforeCapture } = useCapture({});
+  const [displayDetails, setDisplayDetails] = useState(false);
+
+  return (
+    <>
+      <div>
+        <Camera
+          videoRef={videoRef}
+          isAccessingCamera={isAccessingCamera}
+          flash={setBeforeCapture}>
+          <CameraInterface
+            image={image}
+            handleCapture={capture}
+            openImage={() => setDisplayDetails(true)}
+          />
+        </Camera>
+      </div>
+      <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
+    </>
+  );
+};
 ```
 
 ### useCapture Props
