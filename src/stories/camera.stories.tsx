@@ -26,10 +26,11 @@ const Template: Story = (args) => {
             image={image}
             handleCapture={capture}
             openImage={() => setDisplayDetails(true)}
-          />
+          >
+            <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
+          </CameraInterface>
         </Camera>
       </div>
-      <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
     </>
   );
 };

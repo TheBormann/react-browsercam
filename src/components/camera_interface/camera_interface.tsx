@@ -8,8 +8,9 @@ type Props = {
   handleCapture: () => void;
   image: Blob | HTMLCanvasElement | string | null;
   openImage: () => void;
+  children: React.ReactNode | React.ReactNode[];
 };
-const CameraInterface = ({ handleCapture, image, openImage }: Props) => {
+const CameraInterface = ({ handleCapture, image, openImage, children }: Props) => {
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   useEffect(() => {
     if (image instanceof Blob) {
@@ -22,21 +23,22 @@ const CameraInterface = ({ handleCapture, image, openImage }: Props) => {
   }, [image]);
 
   return (
-    <Fragment>
+    <div className={`p-1 z-10 w-full grid grid-cols-3`}>
       {imageBase64 && (
-        <div className={`absolute bottom-2 left-2 h-0 w-[15%] pt-[15%] max-h-[7rem] max-w-[7rem] min-h-[3.5rem] min-w-[3.5rem]`}>
+        <div className={`col-start-1 justify-self-start self-center w-2/3 h-2/3 max-h-[8rem] max-w-[8rem] min-h-[3rem] min-w-[3rem]`}>
           <img
-            className={`absolute bottom-0 left-0 w-full h-full max-h-[7rem] max-w[7rem] min-h-[2rem] min-w-[2rem] object-cover shadow-md rounded-full hover:cursor-pointer`}
+            className={`w-full h-full clip-image shadow-md hover:cursor-pointer`}
             src={imageBase64}
             onClick={openImage}
             alt=""
           />
         </div>
       )}
-      <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 transition flex`}>
+      <div className={`col-start-2 self-center justify-self-center flex items-center`}>
         <CaptureButton onClick={handleCapture} />
       </div>
-    </Fragment>
+      {children}
+    </div>
   );
 };
 

@@ -21,12 +21,12 @@ const ImgDetailPopup = ({ image, visible, handleClose }: Props) => {
   if (imageBase64 === null || !visible) return <div />;
 
   return (
-    <div className={`absolute inset-0  h-screen w-screen z-20 bg-white`}>
+    <div className={`absolute inset-0 h-screen w-screen overflow-hidden z-20 bg-white`}>
       <img className={`absolute inset-0 w-full h-full object-contain`} src={imageBase64} alt="" />
 
       <button
         onClick={handleClose}
-        className="relative mt-2 ml-2 inline-flex items-center justify-center w-10 h-10 mr-2 text-gray-100 transition-colors duration-150 bg-gray-700 rounded-full focus:shadow-outline hover:bg-gray-800">
+        className="absolute top-2 right-2 inline-flex items-center justify-center w-10 h-10 text-gray-100 transition-colors duration-150 bg-gray-700 rounded-full focus:shadow-outline hover:bg-gray-800">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
