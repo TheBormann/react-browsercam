@@ -105,9 +105,9 @@ const Camera = ({
           </div>
         )}
         <div className={`absolute bottom-0 z-10 w-full h-full flex items-end`}>
-          {!inPicture && children}
+          {inPicture && children}
         </div>
-        {inPicture && children}
+        {!inPicture && children}
       </div>
     </FullScreen>
   );
