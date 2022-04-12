@@ -64,7 +64,7 @@ const WebcamComponent = () => {
 
 ## Example
 
-https://github.com/TheBormann/react-browsercam/example
+[Simple project](https://github.com/TheBormann/react-browsercam/tree/master/example)
 
 ## Components
 
