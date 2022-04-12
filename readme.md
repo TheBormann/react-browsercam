@@ -2,32 +2,33 @@
 
 A fully responsive and customizable camera component for React.
 
-Browser compatibility:
+This package was designed to allow you to quickly implement a camera in your webapp.
+
+For a quick implementation you can just copy the code from the usage chapter.
+If you need more freedom, you can swap out any component with a custom one, just note that the useCapture hook
+handles all the interaction with the camera stream.
+
+Note:
+
+The camera stream can only be accessed when the webapp runs over **https** or **localhost**!
+
+## Browser compatibility
 
 - [Fullscreen API](https://caniuse.com/?search=fullscreen) (optional)
 - [MediaStream API](https://caniuse.com/?search=Mediastream)
-
-Note: HTTPS is needed to access the camera.
 
 ## Features
 
 - Fully customizable image capturing hook
 - Fullscreen support
-- Allows for Custom camera interface
+- Allows for custom camera interface
+- Interface can be integrated into the camera or placed below
 
 ## Installation
 
 ```shell
 npm install --save react-browsercam
 ```
-
-## Demo
-
-TODO add live demo
-
-## Example
-
-https://github.com/TheBormann/react-browsercam/example
 
 ## Usage
 
@@ -41,24 +42,31 @@ const WebcamComponent = () => {
   const [displayDetails, setDisplayDetails] = useState(false);
 
   return (
-    <>
-      <div>
-        <Camera
-          videoRef={videoRef}
-          isAccessingCamera={isAccessingCamera}
-          flash={setBeforeCapture}>
-          <CameraInterface
-            image={image}
-            handleCapture={capture}
-            openImage={() => setDisplayDetails(true)}
-          />
-        </Camera>
-      </div>
-      <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
-    </>
+    <Camera
+      videoRef={videoRef}
+      isAccessingCamera={isAccessingCamera}
+      flash={setBeforeCapture}
+      >
+      <CameraInterface
+        image={image}
+        handleCapture={capture}
+        openImage={() => setDisplayDetails(true)}
+      >
+        <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
+      </CameraInterface>
+    </Camera>
   );
 };
 ```
+## Demo
+
+[Demo of react-browsercam](http://TheBormann.github.io/react-browsercam)
+
+## Example
+
+https://github.com/TheBormann/react-browsercam/example
+
+## Components
 
 ### useCapture Props
 
@@ -90,7 +98,7 @@ const WebcamComponent = () => {
 | objectFit? | `'cover' \| 'fill' \| 'contain' \| 'none' \| 'scale-down'` | `'cover` | Changes the cropping of the image |
 | fullscreen? | `boolean?` | `true` | Allows you to disable the fullscreen functionality |
 | flash | `Dispatch<SetStateAction<() => void>>` | required | You can pass it the `setBeforeCapture` value from useCapture to add a flash when capturing an image. Otherwise pass `() => () => void`
-| inPicture? IN PROGRESS! | `boolean?` | `true` | Allows you to overlay the camera buttons on top of the camera image |
+| inPicture? | `boolean?` | `true` | Allows you to overlay the camera interface on top of the camera stream or below it |
 | children | Your camera interface | required | You can use the provided `CameraInterface` Component as a default |
 
 ### CameraInterface Props
@@ -98,8 +106,9 @@ const WebcamComponent = () => {
 | value | type | default | description |
 |------|------|---------|-------|
 | handleCapture | `() => void` | required | This function gets called when the capture button is pressed |
-| image | `Blob \| HTMLCanvasElement \| string \| null` | Image is used to be displayed on the image detail button |
+| image | `Blob \| HTMLCanvasElement \| string \| null` | required | Image is used to be displayed on the image detail button |
 | openImage | `() => void` | required | This function gets called to open the image detail component |
+| children | Your image detail component | null | If you place an image detail component in here, it will also be displayed in fullscreen |
 
 ## License
 
