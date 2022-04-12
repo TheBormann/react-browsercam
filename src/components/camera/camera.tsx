@@ -18,7 +18,15 @@ type Props = {
   children: React.ReactNode | React.ReactNode[];
 };
 
-const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen = true, children, flash, inPicture = true }: Props) => {
+const Camera = ({
+  videoRef,
+  isAccessingCamera,
+  objectFit = 'cover',
+  fullscreen = true,
+  children,
+  flash,
+  inPicture = true
+}: Props) => {
   const [isFlashing, setIsFlashing] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const handleFullscreen = useFullScreenHandle();
@@ -68,22 +76,27 @@ const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen =
    * Camera element
    */
   return (
-    <FullScreen handle={handleFullscreen} className={`relative w-full h-full overflow-hidden `}>
-      <video
-        ref={videoRef}
-        onCanPlay={handleCanPlay}
-        hidden={!isVideoPlaying}
-        autoPlay
-        playsInline
-        muted
-        className={`relative z-0 ${inPicture === false ? 'h-full' : 'h-full'} w-full object-${objectFit} object-center`}
-      />
+    <FullScreen handle={handleFullscreen} className={`relative w-full h-full`}>
+      <div className={`relative w-full h-full flex flex-col bg-black`}>
+        <video
+          ref={videoRef}
+          onCanPlay={handleCanPlay}
+          hidden={!isVideoPlaying}
+          autoPlay
+          playsInline
+          muted
+          className={`relative z-0 h-full w-full ${objectFit === 'cover' && 'object-cover'} ${
+            objectFit === 'fill' && 'object-fill'
+          } ${objectFit === 'contain' && 'object-contain'} ${
+            objectFit === 'none' && 'object-none'
+          } ${objectFit === 'scale-down' && 'object-scale-down'} object-center`}
+        />
 
-      <Flash flash={isFlashing} onAnimationEnd={() => setIsFlashing(false)} />
+        <Flash flash={isFlashing} onAnimationEnd={() => setIsFlashing(false)} />
 
-      {/*navigation*/}
-      {fullscreen && (
-          <div className={`absolute top-1 left-1`}>
+        {/*navigation*/}
+        {fullscreen && (
+          <div className={`absolute z-20 top-1 left-1`}>
             <FullScreenButton
               onClick={() =>
                 handleFullscreen.active ? handleFullscreen.exit() : handleFullscreen.enter()
@@ -91,10 +104,11 @@ const Camera = ({videoRef, isAccessingCamera,  objectFit = 'cover', fullscreen =
             />
           </div>
         )}
-      <div className={`absolute z-10 w-full h-full`}>
-        {!inPicture && children}
+        <div className={`absolute bottom-0 z-10 w-full h-full flex items-end`}>
+          {!inPicture && children}
+        </div>
+        {inPicture && children}
       </div>
-      {inPicture && children}
     </FullScreen>
   );
 };
