@@ -10,10 +10,10 @@ const FullScreenButton = ({ onClick }: Props) => {
   return (
     <button
       onClick={onClick}
-      className={`group w-9 h-9 md:w-10 md:h-10 p-0 m-0.5 opacity-50 bg-slate-400 rounded-full hover:bg-slate-500 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none`}>
+      className={`group w-9 h-9 md:w-10 md:h-10 p-0 m-0.5 inline-flex items-center justify-center opacity-50 bg-slate-400 rounded-full hover:bg-slate-500 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="fill-current h-7 w-7 inline-block stroke-slate-600 group-hover:stroke-slate-900 transition ease-in duration-200"
+        className="fill-current h-6 w-6 inline-block stroke-slate-700 group-hover:stroke-slate-900 transition ease-in duration-200"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1}>
