@@ -7,21 +7,20 @@ function App() {
   const [displayDetails, setDisplayDetails] = useState(false);
 
   return (
-    <div className="App">
-      <div style={{width: "100vw", height: "100vh"}}>
-        <Camera
-          videoRef={videoRef}
-          isAccessingCamera={isAccessingCamera}
-          flash={setBeforeCapture}>
-          <CameraInterface
+    <div className="App" style={{ width: '100vw', height: '100vh' }}>
+      <Camera videoRef={videoRef} isAccessingCamera={isAccessingCamera} flash={setBeforeCapture}>
+        <CameraInterface
+          image={image}
+          handleCapture={capture}
+          openImage={() => setDisplayDetails(true)}>
+          <ImgDetailPopup
             image={image}
-            handleCapture={capture}
-            openImage={() => setDisplayDetails(true)}
+            visible={displayDetails}
+            handleClose={() => setDisplayDetails(false)}
           />
-        </Camera>
-      </div>
-      <ImgDetailPopup image={image} visible={displayDetails} handleClose={() => setDisplayDetails(false)}/>
-      </div>
+        </CameraInterface>
+      </Camera>
+    </div>
   );
 }
 
