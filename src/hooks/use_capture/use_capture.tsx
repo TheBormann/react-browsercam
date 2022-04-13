@@ -110,7 +110,7 @@ export const useCapture = ({
       const aspectRatioW = screenWidth / screenHeight;
       const aspectRatioH = screenHeight / screenWidth;
 
-      if (aspectRatioW < 1.5) {
+      if (aspectRatioW < 2) {
         return { width: Math.trunc(aspectRatioW * imgHeight), height: imgHeight };
       } else {
         return { width: imgWidth, height: Math.trunc(aspectRatioH * imgWidth) };
