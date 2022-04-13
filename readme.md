@@ -58,11 +58,14 @@ const WebcamComponent = () => {
   );
 };
 ```
+
 ## Demo
 
 [Demo of react-browsercam](http://TheBormann.github.io/react-browsercam)
 
 ## Example
+
+<a href="https://codesandbox.io/s/react-browsercam-example-vr7uf6?file=/src/App.js" rel="nofollow"><img src="https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667" alt="Edit react-browsercam" data-canonical-src="https://codesandbox.io/static/img/play-codesandbox.svg" style="max-width: 100%;"></a>
 
 [Simple project](https://github.com/TheBormann/react-browsercam/tree/master/example)
 
@@ -88,13 +91,12 @@ const WebcamComponent = () => {
 | setBeforeCapture | `() => void` | `() => () => null` | Allows you to calculate certain functions **before** capturing an image. Your function need two arrow functions (like in the default value), otherwise useState doesn't recognize it as a function |
 | setAfterCapture | `() => void` | `() => () => null` | Allows you to calculate certain functions **after** capturing an image. Your function need two arrow functions (like in the default value), otherwise useState doesn't recognize it as a function |
 
-
 ### Camera Props
 
 | prop | type | default | description |
 |------|------|---------|-------|
 | videoRef | `RefObject<HTMLVideoElement>` | required | Needed to display mediastream from useCapture hook |
-| isAccessingCamera |  ``boolean`` | required | Needed to display camera if mediastream can be accessed | 
+| isAccessingCamera |  ``boolean`` | required | Needed to display camera if mediastream can be accessed |
 | objectFit? | `'cover' \| 'fill' \| 'contain' \| 'none' \| 'scale-down'` | `'cover` | Changes the cropping of the image |
 | fullscreen? | `boolean?` | `true` | Allows you to disable the fullscreen functionality |
 | flash | `Dispatch<SetStateAction<() => void>>` | required | You can pass it the `setBeforeCapture` value from useCapture to add a flash when capturing an image. Otherwise pass `() => () => void`
