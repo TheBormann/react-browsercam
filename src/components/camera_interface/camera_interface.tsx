@@ -23,6 +23,7 @@ const CameraInterface = ({ handleCapture, image, openImage, children }: Props) =
   }, [image]);
 
   return (
+    <>
     <div className={`p-1 z-10 w-full grid grid-cols-3`}>
       {imageBase64 && (
         <div className={`col-start-1 justify-self-start self-center w-2/3 h-2/3 max-h-[8rem] max-w-[8rem] min-h-[3rem] min-w-[3rem]`}>
@@ -37,8 +38,9 @@ const CameraInterface = ({ handleCapture, image, openImage, children }: Props) =
       <div className={`col-start-2 self-center justify-self-center flex items-center`}>
         <CaptureButton onClick={handleCapture} />
       </div>
-      {children}
     </div>
+    {children}
+    </>
   );
 };
 
