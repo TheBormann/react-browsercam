@@ -1,6 +1,6 @@
 {
   "name": "react-browsercam",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Simple camera component that works in every browser",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
